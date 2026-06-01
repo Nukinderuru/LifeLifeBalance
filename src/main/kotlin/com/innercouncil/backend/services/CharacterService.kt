@@ -17,7 +17,7 @@ class CharacterService(
     private val characterRepository: CharacterRepository,
     private val completionRepository: CompletionRepository,
     private val wishRepository: WishRepository,
-    private val statusService: CharacterStatusService,
+    private val statusService: CharacterStatusService
 ) {
     suspend fun list(): List<CharacterResponse> = characterRepository.findAll().map(::toResponse)
 

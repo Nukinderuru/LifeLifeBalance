@@ -4,7 +4,7 @@ import com.innercouncil.backend.models.CharacterStatus
 import com.innercouncil.backend.config.StatusThresholdSettings
 
 class CharacterStatusService(
-    private val thresholds: StatusThresholdSettings,
+    private val thresholds: StatusThresholdSettings
 ) {
     fun resolve(score: Int): CharacterStatus = when {
         score <= thresholds.starvingMax -> CharacterStatus.STARVING
