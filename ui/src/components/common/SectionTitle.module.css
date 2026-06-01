@@ -1,0 +1,10 @@
+.sectionTitle h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  color: var(--ink-strong);
+}
+
+.sectionTitle p {
+  margin: 0.25rem 0 0;
+  color: var(--ink-soft);
+}
