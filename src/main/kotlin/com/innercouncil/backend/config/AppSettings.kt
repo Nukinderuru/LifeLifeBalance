@@ -26,7 +26,7 @@ data class AppSettings(
 }
 
 private fun ApplicationConfig.readString(path: String, envName: String?, default: String): String =
-    propertyOrNull(path)?.getString() ?: envName?.let(System::getenv) ?: default
+    envName?.let(System::getenv) ?: propertyOrNull(path)?.getString() ?: default
 
 private fun ApplicationConfig.readInt(path: String, envName: String?, default: Int): Int =
-    propertyOrNull(path)?.getString()?.toIntOrNull() ?: envName?.let(System::getenv)?.toIntOrNull() ?: default
+    envName?.let(System::getenv)?.toIntOrNull() ?: propertyOrNull(path)?.getString()?.toIntOrNull() ?: default

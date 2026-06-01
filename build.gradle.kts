@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import java.io.File
 
 plugins {
     kotlin("jvm") version "2.0.21"
@@ -72,4 +73,13 @@ tasks.withType<KotlinCompile>().configureEach {
 
 tasks.test {
     useJUnitPlatform()
+
+    val runtimeDir = System.getenv("XDG_RUNTIME_DIR")
+    val podmanSocket = runtimeDir?.let { File(it, "podman/podman.sock") }
+    val dockerHost = System.getenv("DOCKER_HOST")
+
+    if (dockerHost.isNullOrBlank() && podmanSocket?.exists() == true) {
+        environment("DOCKER_HOST", "unix://${podmanSocket.absolutePath}")
+        environment("TESTCONTAINERS_RYUK_DISABLED", "true")
+    }
 }

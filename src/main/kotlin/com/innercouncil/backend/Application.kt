@@ -7,15 +7,18 @@ import com.innercouncil.backend.routes.configureRouting
 import com.innercouncil.backend.serialization.InstantSerializer
 import com.innercouncil.backend.serialization.LocalDateSerializer
 import com.innercouncil.backend.serialization.UUIDSerializer
+import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.server.application.Application
+import io.ktor.server.application.call
 import io.ktor.server.application.install
 import io.ktor.server.plugins.callloging.CallLogging
 import io.ktor.server.plugins.contentnegotiation.ContentNegotiation
-import io.ktor.server.plugins.openapi.openAPI
 import io.ktor.server.plugins.statuspages.StatusPages
 import io.ktor.server.response.respond
+import io.ktor.server.response.respondText
+import io.ktor.server.routing.get
 import io.ktor.server.routing.routing
 import io.ktor.server.plugins.swagger.swaggerUI
 import kotlinx.serialization.Serializable
@@ -73,7 +76,12 @@ fun Application.module() {
     }
 
     routing {
-        openAPI(path = "openapi", swaggerFile = "openapi/documentation.yaml")
+        get("/openapi") {
+            val specification = requireNotNull(javaClass.classLoader.getResource("openapi/documentation.yaml")) {
+                "OpenAPI specification file is missing"
+            }.readText()
+            call.respondText(specification, ContentType.parse("application/yaml"))
+        }
         swaggerUI(path = "swagger", swaggerFile = "openapi/documentation.yaml")
     }
 

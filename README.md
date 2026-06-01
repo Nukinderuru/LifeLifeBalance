@@ -39,6 +39,12 @@ Start PostgreSQL:
 docker compose up -d
 ```
 
+This starts the full local stack:
+
+- PostgreSQL on `localhost:5432`
+- Ktor backend on `http://localhost:8080`
+- React frontend on `http://localhost:5173`
+
 Default connection settings:
 
 - Database: `inner_council`
@@ -47,6 +53,18 @@ Default connection settings:
 - JDBC URL: `jdbc:postgresql://localhost:5432/inner_council`
 
 ## Run the Application
+
+For the full Docker stack:
+
+```bash
+docker compose up --build
+```
+
+For backend-only local development against Docker PostgreSQL:
+
+```bash
+docker compose up -d postgres
+```
 
 With default config:
 
@@ -72,6 +90,12 @@ The app will:
 
 - OpenAPI spec: `http://localhost:8080/openapi`
 - Swagger UI: `http://localhost:8080/swagger`
+
+When the frontend container is running, the same backend endpoints are also reachable through the frontend origin:
+
+- `http://localhost:5173/api/...`
+- `http://localhost:5173/openapi`
+- `http://localhost:5173/swagger`
 
 ## Main Endpoints
 
@@ -124,6 +148,8 @@ Run tests:
 ```bash
 gradle test
 ```
+
+On rootless Podman setups, the Gradle test task automatically points Testcontainers at the user Podman socket and disables Ryuk when no `DOCKER_HOST` is already configured.
 
 ## Notes
 

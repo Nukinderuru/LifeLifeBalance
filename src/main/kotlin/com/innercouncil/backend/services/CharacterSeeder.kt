@@ -21,8 +21,8 @@ class CharacterSeeder(
         return listOf(
             CharacterRecord(UUID.nameUUIDFromBytes("MAYA".toByteArray()), CharacterCode.MAYA, "Maya", "#6B8E6B", "Needs grounding, softness, and a sense of home.", createdAt),
             CharacterRecord(UUID.nameUUIDFromBytes("ELINA".toByteArray()), CharacterCode.ELINA, "Elina", "#4A5D8F", "Needs learning, reflection, and intellectual clarity.", createdAt),
-            CharacterRecord(UUID.nameUUIDFromBytes("TORA".toByteArray()), CharacterCode.TORA, "Tora", "#C97A40", "Needs play, movement, and sparks of adventure.", createdAt),
-            CharacterRecord(UUID.nameUUIDFromBytes("DANA".toByteArray()), CharacterCode.DANA, "Dana", "#D4B04C", "Needs structure, steadiness, and reliable progress.", createdAt),
+            CharacterRecord(UUID.nameUUIDFromBytes("TORA".toByteArray()), CharacterCode.TORA, "Tora", "#C97A40", "Needs structure, steadiness, and reliable progress.", createdAt),
+            CharacterRecord(UUID.nameUUIDFromBytes("DANA".toByteArray()), CharacterCode.DANA, "Dana", "#D4B04C", "Needs play, movement, and sparks of adventure.", createdAt),
             CharacterRecord(UUID.nameUUIDFromBytes("NAOMI".toByteArray()), CharacterCode.NAOMI, "Naomi", "#C88AA0", "Needs beauty, tenderness, and emotional expression.", createdAt),
         )
     }
