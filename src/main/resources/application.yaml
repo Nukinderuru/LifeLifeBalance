@@ -1,0 +1,19 @@
+ktor:
+  deployment:
+    port: 8080
+  application:
+    modules:
+      - com.innercouncil.backend.ApplicationKt.module
+
+app:
+  database:
+    jdbcUrl: "jdbc:postgresql://localhost:5432/inner_council"
+    username: "inner_council"
+    password: "inner_council"
+    driverClassName: "org.postgresql.Driver"
+    maximumPoolSize: 10
+  statusThresholds:
+    starvingMax: 9
+    hungryMax: 29
+    contentMax: 59
+    happyMax: 99
