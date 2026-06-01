@@ -1,0 +1,148 @@
+openapi: 3.0.3
+info:
+  title: Inner Council Backend API
+  version: 1.0.0
+  description: REST API for tracking inner character wishes and completions.
+servers:
+  - url: http://localhost:8080
+paths:
+  /api/characters:
+    get:
+      summary: List characters
+      responses:
+        '200':
+          description: Characters returned
+  /api/characters/{id}:
+    get:
+      summary: Get character by id
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Character returned
+        '404':
+          description: Character not found
+  /api/characters/{id}/summary:
+    get:
+      summary: Get character summary for date
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - in: query
+          name: date
+          required: true
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Character summary returned
+  /api/wishes:
+    get:
+      summary: List wishes
+      responses:
+        '200':
+          description: Wishes returned
+    post:
+      summary: Create wish
+      responses:
+        '201':
+          description: Wish created
+  /api/wishes/{id}:
+    get:
+      summary: Get wish by id
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Wish returned
+    put:
+      summary: Update wish
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Wish updated
+    delete:
+      summary: Soft delete wish
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Wish deactivated
+  /api/completions:
+    get:
+      summary: List completions by date
+      parameters:
+        - in: query
+          name: date
+          required: true
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Completions returned
+    post:
+      summary: Create completion
+      responses:
+        '201':
+          description: Completion created
+        '409':
+          description: Completion already exists for wish and date
+  /api/completions/{id}:
+    delete:
+      summary: Delete completion
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Completion deleted
+  /api/dashboard/today:
+    get:
+      summary: Get today dashboard
+      responses:
+        '200':
+          description: Dashboard returned
+  /api/dashboard/week:
+    get:
+      summary: Get weekly dashboard
+      parameters:
+        - in: query
+          name: endDate
+          required: false
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Weekly dashboard returned
