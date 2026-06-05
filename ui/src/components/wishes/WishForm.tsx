@@ -18,6 +18,8 @@ interface WishFormProps {
   characters: CharacterResponse[];
   initialWish?: WishResponse | null;
   busy: boolean;
+  preferredCharacterId?: string;
+  onPreferredCharacterChange?: (characterId: string) => void;
   onSubmit: (payload: CreateWishRequest | UpdateWishRequest) => Promise<void>;
   onCancelEdit?: () => void;
 }
@@ -31,8 +33,8 @@ const defaultDraft = (characterId = ''): WishDraft => ({
   active: true,
 });
 
-export function WishForm({ characters, initialWish, busy, onSubmit, onCancelEdit }: WishFormProps) {
-  const [draft, setDraft] = useState<WishDraft>(defaultDraft(characters[0]?.id ?? ''));
+export function WishForm({ characters, initialWish, busy, preferredCharacterId, onPreferredCharacterChange, onSubmit, onCancelEdit }: WishFormProps) {
+  const [draft, setDraft] = useState<WishDraft>(defaultDraft(preferredCharacterId ?? characters[0]?.id ?? ''));
   const isEditing = Boolean(initialWish);
 
   useEffect(() => {
@@ -48,8 +50,11 @@ export function WishForm({ characters, initialWish, busy, onSubmit, onCancelEdit
       return;
     }
 
-    setDraft(defaultDraft(characters[0]?.id ?? ''));
-  }, [characters, initialWish]);
+    const fallbackCharacterId = preferredCharacterId && characters.some((character) => character.id === preferredCharacterId)
+      ? preferredCharacterId
+      : (characters[0]?.id ?? '');
+    setDraft(defaultDraft(fallbackCharacterId));
+  }, [characters, initialWish, preferredCharacterId]);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -64,7 +69,10 @@ export function WishForm({ characters, initialWish, busy, onSubmit, onCancelEdit
     });
 
     if (!isEditing) {
-      setDraft(defaultDraft(characters[0]?.id ?? ''));
+      const fallbackCharacterId = preferredCharacterId && characters.some((character) => character.id === preferredCharacterId)
+        ? preferredCharacterId
+        : (characters[0]?.id ?? '');
+      setDraft(defaultDraft(fallbackCharacterId));
     }
   }
 
@@ -85,7 +93,16 @@ export function WishForm({ characters, initialWish, busy, onSubmit, onCancelEdit
       <div className={styles.grid}>
         <label>
           Character
-          <select value={draft.characterId} onChange={(event) => setDraft((current) => ({ ...current, characterId: event.target.value }))}>
+          <select
+            value={draft.characterId}
+            onChange={(event) => {
+              const characterId = event.target.value;
+              setDraft((current) => ({ ...current, characterId }));
+              if (!isEditing) {
+                onPreferredCharacterChange?.(characterId);
+              }
+            }}
+          >
             {characters.map((character) => (
               <option key={character.id} value={character.id}>
                 {character.name}

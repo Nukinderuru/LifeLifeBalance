@@ -32,13 +32,17 @@
 }
 
 .stats div {
+  display: grid;
+  grid-template-rows: minmax(2.1rem, auto) auto;
   padding: 0.8rem;
   border-radius: 18px;
   background: rgba(255, 252, 248, 0.75);
+  align-items: end;
 }
 
 .stats dt {
   font-size: 0.8rem;
+  line-height: 1.3;
   color: var(--ink-soft);
 }
 

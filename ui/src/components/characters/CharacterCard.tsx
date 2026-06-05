@@ -2,7 +2,6 @@ import { useNavigate } from 'react-router-dom';
 import { PaperCard } from '../common/PaperCard';
 import { CharacterPortrait } from './CharacterPortrait';
 import { CharacterStatusBadge } from './CharacterStatusBadge';
-import { CHARACTER_META } from '../../utils/characterMeta';
 import type { TodayCharacterDashboardResponse } from '../../types/dashboard';
 import styles from './CharacterCard.module.css';
 
@@ -12,7 +11,6 @@ interface CharacterCardProps {
 
 export function CharacterCard({ character }: CharacterCardProps) {
   const navigate = useNavigate();
-  const meta = CHARACTER_META[character.code];
 
   return (
     <PaperCard accentColor={character.color} className={styles.card} onClick={() => navigate(`/characters/${character.id}`)}>
@@ -24,8 +22,6 @@ export function CharacterCard({ character }: CharacterCardProps) {
         </div>
         <CharacterStatusBadge status={character.status} color={character.color} />
       </div>
-
-      <p className={styles.prompt}>{meta.prompt}</p>
 
       <dl className={styles.stats}>
         <div>
