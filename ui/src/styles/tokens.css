@@ -1,0 +1,12 @@
+:root {
+  --paper: #f4ede4;
+  --paper-strong: #efe4d4;
+  --paper-soft: #fbf7f1;
+  --ink: #5f4b3d;
+  --ink-soft: #7d6a5c;
+  --ink-strong: #3f3127;
+  --grass-soft: #6b8e6b;
+  --line: rgba(132, 106, 82, 0.18);
+  --font-display: "Georgia", "Times New Roman", serif;
+  --font-body: "Inter", "Segoe UI", sans-serif;
+}

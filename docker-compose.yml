@@ -1,0 +1,47 @@
+services:
+  postgres:
+    image: docker.io/library/postgres:16
+    container_name: inner-council-postgres
+    environment:
+      POSTGRES_DB: inner_council
+      POSTGRES_USER: inner_council
+      POSTGRES_PASSWORD: inner_council
+    ports:
+      - "5433:5432"
+    volumes:
+      - inner-council-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U inner_council -d inner_council"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: inner-council-backend
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: jdbc:postgresql://postgres:5432/inner_council
+      DATABASE_USERNAME: inner_council
+      DATABASE_PASSWORD: inner_council
+    ports:
+      - "8080:8080"
+
+  frontend:
+    build:
+      context: ./ui
+      dockerfile: Dockerfile
+      args:
+        VITE_API_BASE_URL: /
+    container_name: inner-council-frontend
+    depends_on:
+      - backend
+    ports:
+      - "5173:80"
+
+volumes:
+  inner-council-postgres-data:

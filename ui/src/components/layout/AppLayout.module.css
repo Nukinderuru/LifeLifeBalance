@@ -1,0 +1,33 @@
+.page {
+  min-height: 100vh;
+  position: relative;
+  background:
+    radial-gradient(circle at top left, rgba(248, 231, 210, 0.9), transparent 36%),
+    radial-gradient(circle at top right, rgba(234, 221, 206, 0.8), transparent 28%),
+    linear-gradient(180deg, var(--paper-strong), var(--paper));
+}
+
+.texture {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.45;
+  background-image:
+    radial-gradient(rgba(126, 98, 75, 0.08) 0.7px, transparent 0.7px),
+    radial-gradient(rgba(126, 98, 75, 0.05) 1px, transparent 1px);
+  background-position: 0 0, 20px 22px;
+  background-size: 28px 28px, 36px 36px;
+}
+
+.main {
+  position: relative;
+  width: min(1180px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 0 0 4rem;
+}
+
+@media (min-width: 768px) {
+  .main {
+    width: min(1180px, calc(100% - 3rem));
+  }
+}

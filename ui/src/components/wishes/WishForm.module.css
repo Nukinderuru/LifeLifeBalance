@@ -1,0 +1,91 @@
+.form {
+  display: grid;
+  gap: 1rem;
+  padding: 1.2rem;
+  border-radius: 28px;
+  border: 1px solid rgba(132, 106, 82, 0.15);
+  background: rgba(255, 249, 242, 0.82);
+}
+
+.headingRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: start;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-display);
+  color: var(--ink-strong);
+}
+
+.subtitle {
+  margin: 0.35rem 0 0;
+  color: var(--ink-soft);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.grid label {
+  display: grid;
+  gap: 0.4rem;
+  color: var(--ink);
+}
+
+.grid input,
+.grid select,
+.grid textarea {
+  width: 100%;
+  border-radius: 16px;
+  border: 1px solid rgba(132, 106, 82, 0.2);
+  padding: 0.8rem 0.9rem;
+  background: rgba(255, 254, 251, 0.88);
+  font: inherit;
+  color: var(--ink-strong);
+}
+
+.descriptionField {
+  grid-column: 1 / -1;
+}
+
+.checkboxField {
+  grid-column: 1 / -1;
+  display: flex !important;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.checkboxField input {
+  width: auto;
+  accent-color: var(--grass-soft);
+}
+
+.submitButton,
+.ghostButton {
+  border: none;
+  border-radius: 999px;
+  padding: 0.8rem 1rem;
+  font: inherit;
+}
+
+.submitButton {
+  justify-self: start;
+  background: rgba(223, 196, 164, 0.95);
+  color: var(--ink-strong);
+}
+
+.ghostButton {
+  background: rgba(245, 235, 223, 0.95);
+  color: var(--ink);
+}
+
+@media (max-width: 700px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

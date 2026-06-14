@@ -1,0 +1,56 @@
+.scrollFrame {
+  overflow-x: auto;
+  padding-bottom: 0.4rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(180px, 220px) repeat(7, minmax(110px, 1fr));
+  gap: 0.75rem;
+  min-width: 960px;
+}
+
+.corner,
+.dayHeader,
+.nameCell,
+.dayCell {
+  padding: 0.95rem;
+  border-radius: 20px;
+  border: 1px solid rgba(132, 106, 82, 0.14);
+  background: rgba(255, 249, 241, 0.8);
+}
+
+.corner,
+.dayHeader {
+  font-family: var(--font-display);
+  color: var(--ink-strong);
+}
+
+.nameCell {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.nameCell strong,
+.dayCell strong {
+  display: block;
+  color: var(--ink-strong);
+}
+
+.nameCell span,
+.dayCell span {
+  color: var(--ink-soft);
+  font-size: 0.83rem;
+}
+
+.nameSwatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+}
+
+.dayCell {
+  border: 1px solid;
+}

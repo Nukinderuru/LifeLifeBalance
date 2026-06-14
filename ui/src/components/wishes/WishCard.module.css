@@ -1,0 +1,75 @@
+.card {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.8rem;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-display);
+  color: var(--ink-strong);
+}
+
+.meta {
+  margin: 0.25rem 0 0;
+  color: var(--ink-soft);
+  font-size: 0.92rem;
+}
+
+.description {
+  margin: 0;
+  color: var(--ink);
+}
+
+.resting {
+  align-self: start;
+  border-radius: 999px;
+  background: rgba(125, 111, 103, 0.12);
+  color: var(--ink-soft);
+  padding: 0.35rem 0.75rem;
+  font-size: 0.85rem;
+}
+
+.actions {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.primaryButton,
+.secondaryButton,
+.ghostButton {
+  border: none;
+  border-radius: 999px;
+  padding: 0.7rem 0.95rem;
+  font: inherit;
+  cursor: pointer;
+}
+
+.primaryButton {
+  background: rgba(223, 196, 164, 0.95);
+  color: var(--ink-strong);
+}
+
+.secondaryButton {
+  background: rgba(245, 235, 223, 0.95);
+  color: var(--ink);
+}
+
+.ghostButton {
+  background: transparent;
+  color: var(--ink-soft);
+  border: 1px solid rgba(132, 106, 82, 0.16);
+}
+
+.primaryButton:disabled,
+.secondaryButton:disabled,
+.ghostButton:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}

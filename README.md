@@ -1,133 +1,174 @@
-# Inner Council Backend
+# Inner Council
 
-Ktor backend for a single-user self-care tracker built around fixed inner characters, wishes, and daily completions.
+*A gentle self-care tracker for the different parts of yourself.*
 
-## Stack
+## What is this?
 
-- Kotlin
-- Java 21
-- Ktor
-- PostgreSQL
-- Exposed ORM
-- Liquibase
-- Koin
-- kotlinx.serialization
-- Docker Compose
+Inner Council is a personal web application inspired by the idea that a single person can have many different needs, interests and ways of experiencing life.
 
-## Features
+Some parts of us want to learn.
 
-- Fixed seeded characters on startup: `MAYA`, `ELINA`, `TORA`, `DANA`, `NAOMI`
-- Wish CRUD with soft delete via `active=false`
-- Completion tracking with one completion per wish per day
-- Character daily and weekly scoring
-- Configurable status thresholds
-- Today and weekly dashboard endpoints
-- OpenAPI spec and Swagger UI
-- PostgreSQL-backed integration tests
+Some want adventure.
 
-## Requirements
+Some need beauty.
 
-- Java 21
-- Docker and Docker Compose
-- Gradle 8+ installed locally
+Some seek movement.
 
-## Local PostgreSQL
+Some simply want to sit under a tree and watch the clouds.
 
-Start PostgreSQL:
+Traditional habit trackers often focus on productivity, consistency and optimization. Inner Council takes a different approach.
 
-```bash
-docker compose up -d
-```
+Its goal is not to ask:
 
-Default connection settings:
+> "How much did I accomplish today?"
 
-- Database: `inner_council`
-- Username: `inner_council`
-- Password: `inner_council`
-- JDBC URL: `jdbc:postgresql://localhost:5432/inner_council`
+Instead, it asks:
 
-## Run the Application
+> "Did every important part of me get a chance to live today?"
 
-With default config:
+The application helps track activities associated with five inner characters:
 
-```bash
-gradle run
-```
+* 🌿 **Maya** — nature, quiet mornings, tea, meditation, creativity and observation.
+* 📘 **Elina** — learning, mathematics, programming, languages, books and curiosity.
+* 🔥 **Tora** — movement, strength, courage, exploration and adventure.
+* ☀️ **Dana** — people, connection, volunteering, spontaneity and fun.
+* 🌸 **Naomi** — beauty, comfort, romance, pleasure and self-expression.
 
-With environment overrides:
+Each activity "feeds" one of these characters.
 
-```bash
-DATABASE_URL=jdbc:postgresql://localhost:5432/inner_council \
-DATABASE_USERNAME=inner_council \
-DATABASE_PASSWORD=inner_council \
-gradle run
-```
+The goal is not to maximize points.
 
-The app will:
+The goal is to notice who has been nourished — and who might need a little more attention.
 
-- run Liquibase migrations on startup;
-- seed the five predefined characters if they do not exist.
+---
 
-## API Docs
+## Philosophy
 
-- OpenAPI spec: `http://localhost:8080/openapi`
-- Swagger UI: `http://localhost:8080/swagger`
+Inner Council is intentionally designed around compassion rather than productivity.
 
-## Main Endpoints
+There are:
 
-- `GET /api/characters`
-- `GET /api/characters/{id}`
-- `GET /api/characters/{id}/summary?date=YYYY-MM-DD`
-- `GET /api/wishes?characterId=...&category=DAILY&active=true`
-- `GET /api/wishes/{id}`
-- `POST /api/wishes`
-- `PUT /api/wishes/{id}`
-- `DELETE /api/wishes/{id}`
-- `GET /api/completions?date=YYYY-MM-DD`
-- `POST /api/completions`
-- `DELETE /api/completions/{id}`
-- `GET /api/dashboard/today`
-- `GET /api/dashboard/week?endDate=YYYY-MM-DD`
+* no penalties;
+* no streak loss;
+* no shame-based mechanics;
+* no punishment for missing a day.
 
-## Weekly Dashboard Contract
+The application is built around curiosity and observation.
 
-`GET /api/dashboard/week` always returns a 7-day window.
+A low score does not mean failure.
 
-- `endDate` defaults to today when omitted.
-- `startDate = endDate - 6 days`.
-- `days` always contains exactly 7 entries.
-- Each day contains all predefined characters.
-- Daily character status is computed from that day’s score.
-- Weekly character status is computed from the 7-day total score.
+It simply means:
 
-## Configuration
+> "Perhaps this part of you has been waiting to be noticed."
 
-Application configuration lives in `src/main/resources/application.yaml`.
+Small moments count.
 
-Status thresholds are configurable:
+A cup of tea counts.
 
-```yaml
-app:
-  statusThresholds:
-    starvingMax: 9
-    hungryMax: 29
-    contentMax: 59
-    happyMax: 99
-```
+A walk counts.
 
-## Tests
+Watching a thunderstorm counts.
 
-Integration tests use Testcontainers PostgreSQL.
+Calling a friend counts.
 
-Run tests:
+Life is not only made of achievements.
 
-```bash
-gradle test
-```
+---
 
-## Notes
+## Features (MVP)
 
-- Characters are fixed and are not editable through the API.
-- Wish delete is a soft delete.
-- Duplicate completion for the same wish and date returns `409 Conflict`.
-- Character summary status uses the weekly 7-day score ending at the requested date.
+### Character Dashboard
+
+See the current state of all five characters:
+
+* daily score;
+* weekly score;
+* nourishment status;
+* completed activities.
+
+### Wishes
+
+Create and manage activities ("wishes") for each character.
+
+Examples:
+
+* Walk in nature
+* Study mathematics
+* Dance
+* Call a friend
+* Knit
+* Watch a sunset
+
+### Activity Tracking
+
+Mark activities as completed and build a picture of how your week has been distributed across different needs and interests.
+
+### Weekly Overview
+
+Review the last seven days and identify:
+
+* which characters received attention;
+* which characters may be feeling hungry;
+* how balanced your week has been.
+
+---
+
+## Technical Overview
+
+### Backend
+
+* Kotlin
+* Ktor
+* PostgreSQL
+* Exposed ORM
+* Koin
+
+### Frontend
+
+* React
+* TypeScript
+* Vite
+
+### Architecture
+
+The application follows a simple client-server architecture:
+
+Frontend → REST API → PostgreSQL
+
+Main domain entities:
+
+* Character
+* Wish
+* Completion
+
+The backend calculates daily and weekly scores and exposes dashboard endpoints for the frontend.
+
+---
+
+## Future Ideas
+
+Potential future features:
+
+* bonus conditions ("Tea in nature", "Bath with candles");
+* mood tracking;
+* character portraits and visual progression;
+* seasonal activities;
+* custom characters;
+* reflection journal;
+* recommendation engine ("Who might need attention today?").
+
+---
+
+## Why this project exists
+
+This project started with a simple realization:
+
+Sometimes the problem is not that we are doing too little.
+
+Sometimes the problem is that only one part of us gets to live.
+
+Inner Council is an attempt to create a kinder way of paying attention.
+
+A reminder that productivity is not the same thing as a meaningful day.
+
+And that every part of us deserves a seat at the table.
