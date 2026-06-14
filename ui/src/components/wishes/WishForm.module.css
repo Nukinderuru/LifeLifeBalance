@@ -62,6 +62,7 @@
 
 .checkboxField input {
   width: auto;
+  accent-color: var(--grass-soft);
 }
 
 .submitButton,

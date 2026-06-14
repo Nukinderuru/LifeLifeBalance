@@ -45,6 +45,7 @@ export function WishesPage() {
   const [formBusy, setFormBusy] = useState(false);
   const [editWish, setEditWish] = useState<WishResponse | null>(null);
   const [mutationError, setMutationError] = useState<string | null>(null);
+  const [expandedCharacterId, setExpandedCharacterId] = useState<string | null>(null);
   const [preferredCharacterId, setPreferredCharacterId] = useState<string>(() => {
     if (typeof window === 'undefined') {
       return '';
@@ -209,14 +210,19 @@ export function WishesPage() {
                 grouped.map((group) => (
                   <WishGroup
                     key={group.characterId}
-                    group={group}
-                    busyWishId={busyWishId}
-                    onComplete={handleComplete}
-                    onUndo={handleUndo}
-                    onEdit={(wish) => setEditWish(wish)}
-                    onDeactivate={handleDeactivate}
-                  />
-                ))
+                  group={group}
+                  expanded={expandedCharacterId === group.characterId}
+                  onToggle={() => setExpandedCharacterId((current) => (current === group.characterId ? null : group.characterId))}
+                  busyWishId={busyWishId}
+                  onComplete={handleComplete}
+                  onUndo={handleUndo}
+                  onEdit={(wish) => {
+                    setExpandedCharacterId(group.characterId);
+                    setEditWish(wish);
+                  }}
+                  onDeactivate={handleDeactivate}
+                />
+              ))
               ) : (
                 <EmptyState
                   title={activeFilter === 'ALL' ? 'No wishes yet' : `No ${activeFilter.toLowerCase()} wishes yet`}

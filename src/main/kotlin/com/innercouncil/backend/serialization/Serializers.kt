@@ -8,6 +8,8 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import java.time.Instant
 import java.time.LocalDate
+import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
 import java.util.UUID
 
 object UUIDSerializer : KSerializer<UUID> {
@@ -33,9 +35,12 @@ object LocalDateSerializer : KSerializer<LocalDate> {
 object InstantSerializer : KSerializer<Instant> {
     override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("Instant", PrimitiveKind.STRING)
 
-    override fun deserialize(decoder: Decoder): Instant = Instant.parse(decoder.decodeString())
+    private val zoneOffset: ZoneOffset = ZoneOffset.ofHours(3)
+    private val formatter: DateTimeFormatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME
+
+    override fun deserialize(decoder: Decoder): Instant = java.time.OffsetDateTime.parse(decoder.decodeString(), formatter).toInstant()
 
     override fun serialize(encoder: Encoder, value: Instant) {
-        encoder.encodeString(value.toString())
+        encoder.encodeString(formatter.format(value.atOffset(zoneOffset)))
     }
 }

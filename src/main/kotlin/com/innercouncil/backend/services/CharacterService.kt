@@ -33,13 +33,15 @@ class CharacterService(
         val activeWishes = wishRepository.findActiveByCharacterId(id)
         val completedWishIds = dailyCompletions.map { it.wish.id }.toSet()
         val missingWishes = activeWishes.filterNot { it.id in completedWishIds }
+        val sortedDailyCompletions = dailyCompletions.sortedWith(compareBy({ it.wish.points }, { it.wish.title }))
+        val sortedMissingWishes = missingWishes.sortedWith(compareBy({ it.points }, { it.title }))
 
         return CharacterSummaryResponse(
             character = toResponse(character),
             dailyScore = dailyCompletions.sumOf { it.wish.points },
             weeklyScore = weeklyCompletions.sumOf { it.wish.points },
             status = statusService.resolve(weeklyCompletions.sumOf { it.wish.points }),
-            completedWishes = dailyCompletions.map {
+            completedWishes = sortedDailyCompletions.map {
                 CompletedWishResponse(
                     completionId = it.completion.id,
                     wishId = it.wish.id,
@@ -50,7 +52,7 @@ class CharacterService(
                     notes = it.completion.notes,
                 )
             },
-            missingWishes = missingWishes.map {
+            missingWishes = sortedMissingWishes.map {
                 WishResponse(
                     id = it.id,
                     characterId = it.characterId,

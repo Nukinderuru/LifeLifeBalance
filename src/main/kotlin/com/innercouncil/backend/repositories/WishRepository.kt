@@ -24,7 +24,7 @@ class WishRepository(
                 category?.let { andWhere { WishesTable.category eq it.name } }
                 active?.let { andWhere { WishesTable.active eq it } }
             }
-            .orderBy(WishesTable.createdAt, SortOrder.ASC)
+            .orderBy(WishesTable.points to SortOrder.ASC, WishesTable.title to SortOrder.ASC, WishesTable.createdAt to SortOrder.ASC)
             .map(::toWish)
     }
 
@@ -39,7 +39,7 @@ class WishRepository(
     suspend fun findActiveByCharacterId(characterId: UUID): List<WishRecord> = databaseFactory.dbQuery {
         WishesTable.selectAll()
             .where { (WishesTable.characterId eq characterId) and (WishesTable.active eq true) }
-            .orderBy(WishesTable.createdAt, SortOrder.ASC)
+            .orderBy(WishesTable.points to SortOrder.ASC, WishesTable.title to SortOrder.ASC, WishesTable.createdAt to SortOrder.ASC)
             .map(::toWish)
     }
 

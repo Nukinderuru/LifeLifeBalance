@@ -64,6 +64,25 @@ class ApiIntegrationTest {
     }
 
     @Test
+    fun `wishes and character summary are sorted by points`() = testApp { client ->
+        val maya = client.findCharacterByCode(CharacterCode.MAYA)
+        val bigWish = client.createWish(maya.id, "Volunteer at the zoo", 100, WishCategory.BIG)
+        val mediumWish = client.createWish(maya.id, "Walk in nature", 25, WishCategory.WEEKLY)
+        val smallWish = client.createWish(maya.id, "Drink tea", 5, WishCategory.DAILY)
+        val date = LocalDate.of(2026, 6, 1)
+
+        client.createCompletion(bigWish.id, date)
+        client.createCompletion(smallWish.id, date)
+
+        val wishes = client.get("/api/wishes?characterId=${maya.id}").body<List<WishResponse>>()
+        assertEquals(listOf(5, 25, 100), wishes.map { it.points })
+
+        val summary = client.get("/api/characters/${maya.id}/summary?date=$date").body<CharacterSummaryResponse>()
+        assertEquals(listOf(5, 100), summary.completedWishes.map { it.points })
+        assertEquals(listOf(25), summary.missingWishes.map { it.points })
+    }
+
+    @Test
     fun `completion endpoint rejects duplicate same-day completion`() = testApp { client ->
         val elina = client.findCharacterByCode(CharacterCode.ELINA)
         val wish = client.createWish(elina.id, "Study math", 20)
