@@ -2,6 +2,8 @@
 
 *A gentle self-care tracker for the different parts of yourself.*
 
+![happy_girls_image](images/happy_girls.png)
+
 ## What is this?
 
 Inner Council is a personal web application inspired by the idea that a single person can have many different needs, interests and ways of experiencing life.
